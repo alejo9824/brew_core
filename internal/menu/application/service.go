@@ -8,6 +8,11 @@ import (
 	"github.com/google/uuid"
 )
 
+// MenuService define el contrato para el servicio de menú.
+type MenuService interface {
+	CreateMenuItem(ctx context.Context, name, description string, price float64) (domain.MenuItem, error)
+}
+
 // Service encapsula la lógica de negocio para el menú.
 // Recibe el repositorio como una dependencia a través de su interfaz.
 type Service struct {

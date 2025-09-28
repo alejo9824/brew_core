@@ -17,10 +17,10 @@ type CreateMenuItemRequest struct {
 
 // Handler contiene el servicio de aplicación como dependencia.
 type Handler struct {
-	service *application.Service
+	service application.MenuService
 }
 
-func NewHandler(service *application.Service) *Handler {
+func NewHandler(service application.MenuService) *Handler {
 	return &Handler{service: service}
 }
 
