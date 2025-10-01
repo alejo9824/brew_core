@@ -32,6 +32,13 @@ func newRouter(container *Container) *chi.Mux {
 			// r.Get("/{menuID}", container.MenuHandler.GetMenuItem)
 		})
 
+		r.Route("/employees", func(r chi.Router) {
+			// Mapeamos el método POST a nuestro handler
+			r.Post("/", container.EmployeeHandler.CreateEmployee)
+			// Aquí irían otras rutas como GET, PUT, DELETE...
+			// r.Get("/{employeeID}", container.EmployeeHandler.GetEmployee)
+		})
+
 		// Aquí irían otros recursos como /orders, /tables, etc.
 	})
 

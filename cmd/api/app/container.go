@@ -6,6 +6,8 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	// 1. Importamos los paquetes del módulo de menú que necesitamos
+	employeeApp "github.com/alejo9824/brew_core/internal/employee/application"
+	employeeInfra "github.com/alejo9824/brew_core/internal/employee/infrastructure"
 	menuApp "github.com/alejo9824/brew_core/internal/menu/application"
 	menuInfra "github.com/alejo9824/brew_core/internal/menu/infrastructure"
 )
@@ -14,7 +16,8 @@ import (
 // Específicamente, expone los handlers que el router necesitará.
 type Container struct {
 	// 2. Añadimos el handler del menú al contenedor
-	MenuHandler *menuInfra.Handler
+	MenuHandler     *menuInfra.Handler
+	EmployeeHandler *employeeInfra.HTTPHandler
 }
 
 // newContainer es privado y se encarga de construir y cablear las dependencias.
@@ -33,8 +36,14 @@ func newContainer(ctx context.Context, db *pgxpool.Pool) (*Container, error) {
 	// Le inyectamos la dependencia del servicio.
 	menuHandler := menuInfra.NewHandler(menuService)
 
+	// --- Módulo Employee ---
+	employeeRepository := employeeInfra.NewPostgresRepository(db)
+	employeeService := employeeApp.NewService(employeeRepository)
+	employeeHandler := employeeInfra.NewHTTPHandler(employeeService)
+
 	// 6. Devolvemos el contenedor con el handler listo para ser usado.
 	return &Container{
-		MenuHandler: menuHandler,
+		MenuHandler:     menuHandler,
+		EmployeeHandler: employeeHandler,
 	}, nil
 }

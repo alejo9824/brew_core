@@ -33,3 +33,4 @@ go.work.sum
 # .idea/
 # .vscode/
 config.dev.yaml
+.github/copilot-instructions.md
